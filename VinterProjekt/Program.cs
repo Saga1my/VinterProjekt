@@ -20,21 +20,28 @@ int timeJamesIsHurt = (int)(0.2 * 60);
 int JamesHurtTimeLeft = timeJamesIsHurt;
 
 List<Texture2D> backgrounds = new List<Texture2D>();
-foreach (string path in Directory.GetFiles("Bilder/backgrounds")) {
+foreach (string path in Directory.GetFiles("Bilder/backgrounds"))
+{
     backgrounds.Add(Raylib.LoadTexture(path));
 }
 Console.WriteLine(backgrounds);
 
-Texture2D JamesBlack = Raylib.LoadTexture("Bilder/JamesBlack.png");
-Texture2D JamesNormal = Raylib.LoadTexture("Bilder/JamesNormal.png");
-Texture2D JamesHurt = Raylib.LoadTexture("Bilder/JamesHurt.png");
-Texture2D JamesRight = Raylib.LoadTexture("Bilder/JamesRight.png");
-Texture2D AvatarSaga = Raylib.LoadTexture("Bilder/FrontViewSaga.png");
-Texture2D AvatarSagaBack = Raylib.LoadTexture("Bilder/BackViewSaga.png");
-Texture2D AvatarSagaLeft = Raylib.LoadTexture("Bilder/LeftViewSaga.png");
-Texture2D AvatarSagaRight = Raylib.LoadTexture("Bilder/RightViewSaga.png");
-Texture2D CurrentTexture = AvatarSaga;
-Texture2D CurrentJames = JamesBlack;
+Dictionary<string, Texture2D> JamesTextures = new Dictionary<string, Texture2D> {
+    {"black", Raylib.LoadTexture("Bilder/JamesBlack.png")},
+    {"normal", Raylib.LoadTexture("Bilder/JamesNormal.png")},
+    {"hurt", Raylib.LoadTexture("Bilder/JamesHurt.png")},
+    {"right", Raylib.LoadTexture("Bilder/JamesRight.png")}
+};
+
+Dictionary<string, Texture2D> SagaTextures = new Dictionary<string, Texture2D> {
+    {"avatar", Raylib.LoadTexture("Bilder/FrontViewSaga.png")},
+    {"back", Raylib.LoadTexture("Bilder/BackViewSaga.png")},
+    {"left", Raylib.LoadTexture("Bilder/LeftViewSaga.png")},
+    {"right", Raylib.LoadTexture("Bilder/RightViewSaga.png")}
+};
+
+Texture2D CurrentTexture = SagaTextures["avatar"];
+Texture2D CurrentJames = JamesTextures["black"];
 
 
 Rectangle character = new Rectangle(Raylib.GetScreenWidth() / 3, Raylib.GetScreenHeight() / 2, 100, 100);
@@ -70,7 +77,7 @@ while (!Raylib.WindowShouldClose())
         if (!(currentScene >= 7 && character.y <= 10))
         {
             character.y -= 7;
-            CurrentTexture = AvatarSagaBack;
+            CurrentTexture = SagaTextures["back"];
         }
     }
 
@@ -79,24 +86,24 @@ while (!Raylib.WindowShouldClose())
         if (!(character.x < 2))
         {
             character.x -= 7;
-            CurrentTexture = AvatarSagaLeft;
+            CurrentTexture = SagaTextures["left"];
         }
     }
     if (Raylib.IsKeyDown(KeyboardKey.KEY_S) && still == false)
     {
-        if (!(currentScene <= 1 && character.y >= Raylib.GetScreenHeight() - AvatarSaga.height))
+        if (!(currentScene <= 1 && character.y >= Raylib.GetScreenHeight() - SagaTextures["avatar"].height))
         {
             character.y += 7;
-            CurrentTexture = AvatarSaga;
+            CurrentTexture = SagaTextures["avatar"];
         }
     }
     if (Raylib.IsKeyDown(KeyboardKey.KEY_D) && still == false)
     {
-        if (!(character.x >= Raylib.GetScreenWidth() - AvatarSaga.width))
+        if (!(character.x >= Raylib.GetScreenWidth() - SagaTextures["avatar"].width))
         {
 
             character.x += 7;
-            CurrentTexture = AvatarSagaRight;
+            CurrentTexture = SagaTextures["right"];
         }
     }
     draw();
@@ -132,9 +139,11 @@ while (!Raylib.WindowShouldClose())
             still = true;
         }
 
-        if(JamesHasBeenHurt==false){
-        James.x = 440;
-        James.y = 40;}
+        if (JamesHasBeenHurt == false)
+        {
+            James.x = 440;
+            James.y = 40;
+        }
 
         bossFight = true;
         if (Raylib.IsKeyDown(KeyboardKey.KEY_ENTER))
@@ -156,12 +165,12 @@ while (!Raylib.WindowShouldClose())
 
     if (JamesIsHurting)
     {
-        CurrentJames = JamesHurt;
+        CurrentJames = JamesTextures["hurt"];
         JamesHurtTimeLeft--;
     }
     if (JamesHasBeenHurt == false && JamesHurtTimeLeft <= 0)
     {
-        CurrentJames = JamesBlack;
+        CurrentJames = JamesTextures["black"];
         JamesIsHurting = false;
         JamesHasBeenHurt = true;
         Continue = false;
@@ -174,7 +183,7 @@ while (!Raylib.WindowShouldClose())
 
     if (JamesHasBeenHurt && Continue == true)
     {
-        CurrentJames = JamesNormal;
+        CurrentJames = JamesTextures["normal"];
     }
 
 }
@@ -186,7 +195,7 @@ void draw()
 {
     Raylib.BeginDrawing();
 
-    Raylib.DrawTexturePro(backgrounds[currentScene-1], Source, Destination, new Vector2(0, 0), 0, Color.WHITE);
+    Raylib.DrawTexturePro(backgrounds[currentScene - 1], Source, Destination, new Vector2(0, 0), 0, Color.WHITE);
 
     Raylib.DrawTexture(CurrentTexture, (int)character.x, (int)character.y, Color.WHITE);
 
@@ -269,7 +278,7 @@ void draw()
         if (JamesHasBeenHurt == true && currentScene == 7)
         {
             Raylib.DrawRectangleRec(TextBox, Color.BLACK);
-            Raylib.DrawText("Okänd person: Ow varför gjorde du då :C Jag ville bara dela med mig av min avocado", 70, 575, 20, Color.WHITE);
+            Raylib.DrawText("Okänd person: Ow varför gjorde du så :C Jag ville bara dela med mig av min avocado", 70, 575, 20, Color.WHITE);
             Raylib.DrawText("Klicka ENTER för att fortsätta", 70, 650, 20, Color.WHITE);
         }
         if (JamesHasBeenHurt == true && currentScene == 7 && Continue == true)
@@ -277,7 +286,7 @@ void draw()
             Raylib.DrawRectangleRec(TextBox, Color.BLACK);
             Raylib.DrawText("James: Varför är du så elak mot mig? Jag ville bara hjälpa till", 70, 575, 20, Color.WHITE);
             Raylib.DrawText("*gråter*", 70, 600, 20, Color.WHITE);
-        
+
 
         }
     }
