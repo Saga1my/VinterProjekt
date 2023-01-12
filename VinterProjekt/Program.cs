@@ -56,6 +56,7 @@ while (!Raylib.WindowShouldClose())
 {
 
 
+
     if (character.y < 5)
     {
         currentScene += 1;
@@ -72,40 +73,8 @@ while (!Raylib.WindowShouldClose())
 
     }
 
-    if (Raylib.IsKeyDown(KeyboardKey.KEY_W) && still == false)
-    {
-        if (!(currentScene >= 7 && character.y <= 10))
-        {
-            character.y -= 7;
-            CurrentTexture = SagaTextures["back"];
-        }
-    }
+    walk();
 
-    if (Raylib.IsKeyDown(KeyboardKey.KEY_A) && still == false)
-    {
-        if (!(character.x < 2))
-        {
-            character.x -= 7;
-            CurrentTexture = SagaTextures["left"];
-        }
-    }
-    if (Raylib.IsKeyDown(KeyboardKey.KEY_S) && still == false)
-    {
-        if (!(currentScene <= 1 && character.y >= Raylib.GetScreenHeight() - SagaTextures["avatar"].height))
-        {
-            character.y += 7;
-            CurrentTexture = SagaTextures["avatar"];
-        }
-    }
-    if (Raylib.IsKeyDown(KeyboardKey.KEY_D) && still == false)
-    {
-        if (!(character.x >= Raylib.GetScreenWidth() - SagaTextures["avatar"].width))
-        {
-
-            character.x += 7;
-            CurrentTexture = SagaTextures["right"];
-        }
-    }
     draw();
 
 
@@ -159,6 +128,9 @@ while (!Raylib.WindowShouldClose())
                 JamesIsHurting = true;
             }
         }
+
+        //frej hjälpt till med tid saker
+
     }
 
 
@@ -296,4 +268,49 @@ void draw()
 
     Raylib.EndDrawing();
 
+}
+
+
+void walk() {
+    if (Raylib.IsKeyDown(KeyboardKey.KEY_W) && still == false)
+    {
+        if (!(currentScene >= 7 && character.y <= 10))
+        {
+            character.y -= 7;
+            CurrentTexture = SagaTextures["back"];
+        }
+    }
+
+    if (Raylib.IsKeyDown(KeyboardKey.KEY_A) && still == false)
+    {
+        if (!(character.x < 2))
+        {
+            character.x -= 7;
+            CurrentTexture = SagaTextures["left"];
+        }
+    }
+    if (Raylib.IsKeyDown(KeyboardKey.KEY_S) && still == false)
+    {
+        if (!(currentScene <= 1 && character.y >= Raylib.GetScreenHeight() - SagaTextures["avatar"].height))
+        {
+            character.y += 7;
+            CurrentTexture = SagaTextures["avatar"];
+        }
+    }
+    if (Raylib.IsKeyDown(KeyboardKey.KEY_D) && still == false)
+    {
+        if (!(character.x >= Raylib.GetScreenWidth() - SagaTextures["avatar"].width))
+        {
+
+            character.x += 7;
+            CurrentTexture = SagaTextures["right"];
+        }
+    }
+}
+
+
+class Dialog {
+    void view_dialog_1() {
+        Raylib.DrawText("Du är ute på en promenad för att njuta av det vackra vädret! Klicka på W,A,S,D för att röra på dig!", 70, 575, 20, Color.WHITE);
+    }
 }
