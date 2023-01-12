@@ -129,7 +129,7 @@ while (!Raylib.WindowShouldClose())
             }
         }
 
-        //frej hjälpt till med tid saker
+        //frej hjälpt till med att få figuren att blinka
 
     }
 
@@ -309,8 +309,13 @@ void walk() {
 }
 
 
-class Dialog {
-    void view_dialog_1() {
-        Raylib.DrawText("Du är ute på en promenad för att njuta av det vackra vädret! Klicka på W,A,S,D för att röra på dig!", 70, 575, 20, Color.WHITE);
-    }
+// class Dialog {
+//     void view_dialog_1() {
+//         Raylib.DrawText("Du är ute på en promenad för att njuta av det vackra vädret! Klicka på W,A,S,D för att röra på dig!", 70, 575, 20, Color.WHITE);
+//     }
+// }
+
+
+class Scene1 {
+
 }
