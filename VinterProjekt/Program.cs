@@ -7,13 +7,15 @@ Raylib.SetTargetFPS(60);
 
 int currentScene = 1;
 bool jamesSedd = false;
-bool smaka = false;
-bool peta = false;
+bool val_1 = false;
+bool val_2 = false;
 bool Continue = false;
 bool bossFight = false;
 bool JamesIsHurting = false;
 bool JamesHasBeenHurt = false;
 bool still = false;
+bool letar = false;
+
 
 
 int timeJamesIsHurt = (int)(0.2 * 60);
@@ -62,6 +64,9 @@ while (!Raylib.WindowShouldClose())
         currentScene += 1;
         character.y = 500;
         Continue = false;
+        val_1 = false;
+        val_2 = false;
+
 
     }
 
@@ -78,6 +83,7 @@ while (!Raylib.WindowShouldClose())
     draw();
 
 
+
     if (currentScene == 2 && character.x > 700)
     {
         James.x += 5;
@@ -86,13 +92,13 @@ while (!Raylib.WindowShouldClose())
 
     if (currentScene == 3)
     {
-        if (Raylib.IsKeyDown(KeyboardKey.KEY_ONE) && smaka == false && Continue == false)
+        if (Raylib.IsKeyDown(KeyboardKey.KEY_ONE) && val_2 == false && Continue == false)
         {
-            peta = true;
+            val_1 = true;
         }
-        if (Raylib.IsKeyDown(KeyboardKey.KEY_TWO) && peta == false && Continue == false)
+        if (Raylib.IsKeyDown(KeyboardKey.KEY_TWO) && val_1 == false && Continue == false)
         {
-            smaka = true;
+            val_2 = true;
         }
         if (Raylib.IsKeyDown(KeyboardKey.KEY_ENTER))
         {
@@ -103,9 +109,10 @@ while (!Raylib.WindowShouldClose())
 
     if (currentScene == 7)
     {
-        if (character.y <= 300)
+        if (character.y <= 300&&Continue==false&&letar==false)
         {
             still = true;
+            CurrentTexture = SagaTextures["back"];
         }
 
         if (JamesHasBeenHurt == false)
@@ -120,8 +127,23 @@ while (!Raylib.WindowShouldClose())
             Continue = true;
         }
 
+        if (Raylib.IsKeyDown(KeyboardKey.KEY_ONE))
+        {
+            val_1 = true;
+            val_2 = false;
+            CurrentJames=JamesTextures["normal"];
+        }
+
+        if (Raylib.IsKeyDown(KeyboardKey.KEY_ENTER)){
+            Continue=true;
+            
+        }
+
+
         if (Raylib.IsKeyDown(KeyboardKey.KEY_TWO))
         {
+            val_2 = true;
+
             if (JamesIsHurting == false && JamesHasBeenHurt == false)
             {
                 JamesHurtTimeLeft = timeJamesIsHurt;
@@ -145,7 +167,7 @@ while (!Raylib.WindowShouldClose())
         CurrentJames = JamesTextures["black"];
         JamesIsHurting = false;
         JamesHasBeenHurt = true;
-        Continue = false;
+        
     }
 
     if (Raylib.IsKeyDown(KeyboardKey.KEY_ENTER))
@@ -155,7 +177,7 @@ while (!Raylib.WindowShouldClose())
 
     if (JamesHasBeenHurt && Continue == true)
     {
-        CurrentJames = JamesTextures["normal"];
+    
     }
 
 }
@@ -203,7 +225,7 @@ void draw()
         Raylib.DrawText("Du ser en gul pöl på marken. Du undrar vad det är för något.", 70, 575, 20, Color.WHITE);
         Raylib.DrawText("Klicka på 1 för att peta i det eller 2 för att smaka på det. Du kan också bara gå därifrån.", 70, 650, 20, Color.WHITE);
 
-        if (smaka == true)
+        if (val_2 == true)
         {
             Raylib.DrawRectangleRec(TextBox, Color.BLACK);
             Raylib.DrawText("Vem fan smakar direkt?", 70, 575, 20, Color.WHITE);
@@ -211,7 +233,7 @@ void draw()
             Raylib.DrawText("Klicka ENTER för att fortsätta", 70, 650, 20, Color.WHITE);
         }
 
-        if (peta == true)
+        if (val_1 == true)
         {
             Raylib.DrawRectangleRec(TextBox, Color.BLACK);
             Raylib.DrawText("Den gula sörjan känns tjock. som olja...", 70, 575, 20, Color.WHITE);
@@ -219,7 +241,7 @@ void draw()
             Raylib.DrawText("Klicka ENTER för att fortsätta", 70, 650, 20, Color.WHITE);
         }
 
-        if (Continue == true && (peta == true || smaka == true))
+        if (Continue == true && (val_1 == true || val_2 == true))
         {
             Raylib.DrawRectangleRec(TextBox, Color.BLACK);
             Raylib.DrawText("Men vad gör olivolja i mitten av skogen? Du beslutar dig för att följa efter fotspåren du ser på marken", 70, 575, 20, Color.WHITE);
@@ -234,33 +256,47 @@ void draw()
     if (currentScene == 7)
     {
         Raylib.DrawTexture(CurrentJames, (int)James.x, (int)James.y, Color.WHITE);
-        if (character.y < 300)
+        if (character.y < 300&&Continue==false&&letar==false)
         {
             Raylib.DrawRectangleRec(TextBox, Color.BLACK);
             Raylib.DrawText("Okänd person:  Vill du smaka...min avocado...", 70, 575, 20, Color.WHITE);
-            Raylib.DrawText("Klicka ENTER för att fortsätta", 70, 650, 20, Color.WHITE);
+            Raylib.DrawText("Klicka 1 för att smaka, och 2 för att inte göra det", 70, 650, 20, Color.WHITE);
         }
-        if (Continue == true)
+        if (val_2&&val_1==false&&letar==false)
         {
             Raylib.DrawRectangleRec(TextBox, Color.BLACK);
             Raylib.DrawText("Okänd person: ..SMAKA.. avocado...", 70, 575, 20, Color.WHITE);
             Raylib.DrawText("Klicka 1 för att smaka avocado eller 2 för att kasta en sten på den okända figuren", 70, 650, 20, Color.WHITE);
+            
+
         }
 
-        if (JamesHasBeenHurt == true && currentScene == 7)
+        if (val_1&&Continue==false&&letar==false)
+        {
+            Raylib.DrawRectangleRec(TextBox, Color.BLACK);
+            Raylib.DrawText("Oj jag trodde ej du skulle säga ja, ehh jag har ej allt jag behöver här, kan du leta efter det åt mig?", 70, 575, 20, Color.WHITE);
+            Raylib.DrawText("Klicka ENTER för att säga ja (du har inget val)", 70, 650, 20, Color.WHITE);
+            
+          
+        }
+        
+
+        if (JamesHasBeenHurt == true&&Continue==false&&letar==false)
         {
             Raylib.DrawRectangleRec(TextBox, Color.BLACK);
             Raylib.DrawText("Okänd person: Ow varför gjorde du så :C Jag ville bara dela med mig av min avocado", 70, 575, 20, Color.WHITE);
-            Raylib.DrawText("Klicka ENTER för att fortsätta", 70, 650, 20, Color.WHITE);
+            Raylib.DrawText("Klicka ENTER för att för att säga förlåt och smaka hans avocado", 70, 650, 20, Color.WHITE);
         }
-        if (JamesHasBeenHurt == true && currentScene == 7 && Continue == true)
-        {
+       
+        if (Continue==true){
             Raylib.DrawRectangleRec(TextBox, Color.BLACK);
-            Raylib.DrawText("James: Varför är du så elak mot mig? Jag ville bara hjälpa till", 70, 575, 20, Color.WHITE);
-            Raylib.DrawText("*gråter*", 70, 600, 20, Color.WHITE);
-
-
+            Raylib.DrawText("Det jag behöver är:", 70, 575, 20, Color.WHITE);
+            Raylib.DrawText("2 st avokader, 1 pöl olja och 5 st chili flakes", 70, 600, 20, Color.WHITE);
+            Raylib.DrawText("Jag kommer till dig när du hittat allt", 70, 650, 20, Color.WHITE);
+            still=false;
+            letar=true;
         }
+    
     }
     //Raylib.DrawRectangleRec(TextBox, Color.BLACK); 
     //Raylib.DrawText("", 70, 575, 20, Color.WHITE);
@@ -271,7 +307,9 @@ void draw()
 }
 
 
-void walk() {
+
+void walk()
+{
     if (Raylib.IsKeyDown(KeyboardKey.KEY_W) && still == false)
     {
         if (!(currentScene >= 7 && character.y <= 10))
@@ -308,14 +346,3 @@ void walk() {
     }
 }
 
-
-// class Dialog {
-//     void view_dialog_1() {
-//         Raylib.DrawText("Du är ute på en promenad för att njuta av det vackra vädret! Klicka på W,A,S,D för att röra på dig!", 70, 575, 20, Color.WHITE);
-//     }
-// }
-
-
-class Scene1 {
-
-}
