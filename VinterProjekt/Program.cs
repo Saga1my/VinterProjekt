@@ -15,11 +15,17 @@ bool JamesIsHurting = false;
 bool JamesHasBeenHurt = false;
 bool still = false;
 bool letar = false;
+bool IsInventoryOpen = false;
 
 
 
 int timeJamesIsHurt = (int)(0.2 * 60);
 int JamesHurtTimeLeft = timeJamesIsHurt;
+int WalkingAnimation = 0;
+int WalkingAnimationIndex = 0;
+int inventoryI = 0;
+
+
 
 List<Texture2D> backgrounds = new List<Texture2D>();
 foreach (string path in Directory.GetFiles("Bilder/backgrounds"))
@@ -42,8 +48,35 @@ Dictionary<string, Texture2D> SagaTextures = new Dictionary<string, Texture2D> {
     {"right", Raylib.LoadTexture("Bilder/RightViewSaga.png")}
 };
 
+List<Texture2D> SagaWalkingRight = new List<Texture2D>();
+SagaWalkingRight.Add(Raylib.LoadTexture("Bilder/SagaWalkingRight1.png"));
+SagaWalkingRight.Add(Raylib.LoadTexture("Bilder/RightViewSaga.png"));
+SagaWalkingRight.Add(Raylib.LoadTexture("Bilder/SagaWalkingRight1.png"));
+SagaWalkingRight.Add(Raylib.LoadTexture("Bilder/RightViewSaga.png"));
+
+
+List<Texture2D> SagaWalkingLeft = new List<Texture2D>();
+SagaWalkingLeft.Add(Raylib.LoadTexture("Bilder/SagaWalkingLeft1.png"));
+SagaWalkingLeft.Add(Raylib.LoadTexture("Bilder/LeftViewSaga.png"));
+SagaWalkingLeft.Add(Raylib.LoadTexture("Bilder/SagaWalkingLeft1.png"));
+SagaWalkingLeft.Add(Raylib.LoadTexture("Bilder/LeftViewSaga.png"));
+
+List<Texture2D> SagaWalkingUp = new List<Texture2D>();
+SagaWalkingUp.Add(Raylib.LoadTexture("Bilder/SagaWalkingUp1.png"));
+SagaWalkingUp.Add(Raylib.LoadTexture("Bilder/BackViewSaga.png"));
+SagaWalkingUp.Add(Raylib.LoadTexture("Bilder/SagaWalkingUp2.png"));
+SagaWalkingUp.Add(Raylib.LoadTexture("Bilder/BackViewSaga.png"));
+
+List<Texture2D> SagaWalkingDown = new List<Texture2D>();
+SagaWalkingDown.Add(Raylib.LoadTexture("Bilder/SagaWalkingDown1.png"));
+SagaWalkingDown.Add(Raylib.LoadTexture("Bilder/FrontViewSaga.png"));
+SagaWalkingDown.Add(Raylib.LoadTexture("Bilder/SagaWalkingDown2.png"));
+SagaWalkingDown.Add(Raylib.LoadTexture("Bilder/FrontViewSaga.png"));
+
 Texture2D CurrentTexture = SagaTextures["avatar"];
 Texture2D CurrentJames = JamesTextures["black"];
+Texture2D InventoryTexture = Raylib.LoadTexture("Bilder/SagaInventory.png");
+Texture2D OpenInventoryTexture = Raylib.LoadTexture("Bilder/SagaInventoryOpen.png");
 
 
 Rectangle character = new Rectangle(Raylib.GetScreenWidth() / 3, Raylib.GetScreenHeight() / 2, 100, 100);
@@ -51,8 +84,10 @@ Rectangle James = new Rectangle(980, 300, 100, 100);
 Rectangle Source = new Rectangle(0, 0, backgrounds[0].width, backgrounds[0].height);
 Rectangle Destination = new Rectangle(0, 0, Raylib.GetScreenWidth(), Raylib.GetScreenHeight());
 Rectangle TextBox = new Rectangle(40, 550, 1200, 140);
+Rectangle InventoryTextBox = new Rectangle(40, 20, 500, 600);
+Rectangle Inventory = new Rectangle(5,5,50,50);
+Rectangle InventoryOpen = new Rectangle(700,15,10,10);
 
-//LOGIK
 
 while (!Raylib.WindowShouldClose())
 {
@@ -73,10 +108,25 @@ while (!Raylib.WindowShouldClose())
     if (character.y > 600)
     {
         currentScene -= 1;
-        character.y = 500;
+        character.y=100;
         Continue = false;
+        val_1 = false;
+        val_2 = false;
 
     }
+
+    if (Raylib.IsKeyPressed(KeyboardKey.KEY_I)){
+        inventoryI++;
+        if (inventoryI>=2){
+            inventoryI=0;
+        } 
+
+    }
+    if (inventoryI==1){
+     IsInventoryOpen=true;
+    }
+    else {IsInventoryOpen=false;
+    still=false;}
 
     walk();
 
@@ -190,17 +240,30 @@ void draw()
     Raylib.BeginDrawing();
 
     Raylib.DrawTexturePro(backgrounds[currentScene - 1], Source, Destination, new Vector2(0, 0), 0, Color.WHITE);
-
+    
     Raylib.DrawTexture(CurrentTexture, (int)character.x, (int)character.y, Color.WHITE);
 
-    if (currentScene == 1 && character.y > 200&&letar==false)
+    if (IsInventoryOpen==false){
+        Raylib.DrawTexture(InventoryTexture,(int)Inventory.x,(int)Inventory.y, Color.WHITE);
+    }
+
+    if (IsInventoryOpen==true){
+        Raylib.DrawTexture(OpenInventoryTexture,(int)InventoryOpen.x,(int)InventoryOpen.y, Color.WHITE);
+        still=true;
+        Raylib.DrawRectangleRec(InventoryTextBox, Color.BLACK); 
+        Raylib.DrawText("I din väska har du just nu:", 55, 40, 20, Color.WHITE);
+        }
+
+
+    if (currentScene == 1 && character.y > 200&&letar==false&&!IsInventoryOpen)
     {
 
         Raylib.DrawRectangleRec(TextBox, Color.BLACK);
-        Raylib.DrawText("Du är ute på en promenad för att njuta av det vackra vädret! Klicka på W,A,S,D för att röra på dig!", 70, 575, 20, Color.WHITE);
+        Raylib.DrawText("Du är ute på en promenad för att njuta av det vackra vädret!", 70, 575, 20, Color.WHITE);
+        Raylib.DrawText("Klicka på W,A,S,D för att röra på dig och I för att öppna eller stänga ditt inventory", 70, 600, 20, Color.WHITE);
     }
 
-    if (currentScene == 2 && bossFight == false)
+    if (currentScene == 2 && bossFight == false&&!IsInventoryOpen)
     {
 
 
@@ -219,7 +282,7 @@ void draw()
 
     }
 
-    if (currentScene == 3&&letar==false)
+    if (currentScene == 3&&letar==false&&!IsInventoryOpen)
     {
         Raylib.DrawRectangleRec(TextBox, Color.BLACK);
         Raylib.DrawText("Du ser en gul pöl på marken. Du undrar vad det är för något.", 70, 575, 20, Color.WHITE);
@@ -253,7 +316,7 @@ void draw()
             Raylib.DrawText(" Du beslutar dig för att följa efter fotspåren du ser på marken. trots att det troligtvis är piss.", 70, 575, 20, Color.WHITE);
         }
     }
-    if (currentScene == 7)
+    if (currentScene == 7&&!IsInventoryOpen)
     {
         Raylib.DrawTexture(CurrentJames, (int)James.x, (int)James.y, Color.WHITE);
         if (character.y < 300&&Continue==false&&letar==false)
@@ -296,10 +359,10 @@ void draw()
             still=false;
             letar=true;
         }
-    
     }
     //Raylib.DrawRectangleRec(TextBox, Color.BLACK); 
     //Raylib.DrawText("", 70, 575, 20, Color.WHITE);
+
 
 
     Raylib.EndDrawing();
@@ -310,12 +373,22 @@ void draw()
 
 void walk()
 {
+    WalkingAnimation++;
+    if(WalkingAnimation>=10){
+        WalkingAnimation=0;
+        if(WalkingAnimationIndex>=SagaWalkingRight.Count()-1){
+            WalkingAnimationIndex=0;
+        }
+
+        else {WalkingAnimationIndex ++;}
+    }
+
     if (Raylib.IsKeyDown(KeyboardKey.KEY_W) && still == false)
     {
         if (!(currentScene >= 7 && character.y <= 10))
         {
             character.y -= 7;
-            CurrentTexture = SagaTextures["back"];
+            CurrentTexture=SagaWalkingUp[WalkingAnimationIndex];
         }
     }
 
@@ -324,7 +397,7 @@ void walk()
         if (!(character.x < 2))
         {
             character.x -= 7;
-            CurrentTexture = SagaTextures["left"];
+            CurrentTexture=SagaWalkingLeft[WalkingAnimationIndex];
         }
     }
     if (Raylib.IsKeyDown(KeyboardKey.KEY_S) && still == false)
@@ -332,17 +405,21 @@ void walk()
         if (!(currentScene <= 1 && character.y >= Raylib.GetScreenHeight() - SagaTextures["avatar"].height))
         {
             character.y += 7;
-            CurrentTexture = SagaTextures["avatar"];
+            CurrentTexture=SagaWalkingDown[WalkingAnimationIndex];
         }
     }
     if (Raylib.IsKeyDown(KeyboardKey.KEY_D) && still == false)
     {
         if (!(character.x >= Raylib.GetScreenWidth() - SagaTextures["avatar"].width))
         {
-
             character.x += 7;
-            CurrentTexture = SagaTextures["right"];
-        }
+            CurrentTexture=SagaWalkingRight[WalkingAnimationIndex];
+        }   
     }
+
 }
+
+    
+    
+
 
