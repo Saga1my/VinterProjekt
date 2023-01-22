@@ -193,7 +193,7 @@ void draw()
 
     Raylib.DrawTexture(CurrentTexture, (int)character.x, (int)character.y, Color.WHITE);
 
-    if (currentScene == 1 && character.y > 200)
+    if (currentScene == 1 && character.y > 200&&letar==false)
     {
 
         Raylib.DrawRectangleRec(TextBox, Color.BLACK);
@@ -205,12 +205,12 @@ void draw()
 
 
         Raylib.DrawTexture(CurrentJames, (int)James.x, (int)James.y, Color.WHITE);
-        if (jamesSedd == false && character.y < 500 && character.x < 700)
+        if (jamesSedd == false && character.y < 500 && character.x < 700&&letar==false)
         {
             Raylib.DrawRectangleRec(TextBox, Color.BLACK);
             Raylib.DrawText("Du ser en mörk skugga stirra på dig från bakom ett träd. I hans hand ser du något gult glimmra. Du blir nyfiken.", 70, 575, 20, Color.WHITE);
         }
-        if (character.x > 700)
+        if (character.x > 700&&letar==false)
         {
             Raylib.DrawRectangleRec(TextBox, Color.BLACK);
             Raylib.DrawText("När du försöker gå närmare springer han iväg. Fegis. ", 70, 575, 20, Color.WHITE);
@@ -219,7 +219,7 @@ void draw()
 
     }
 
-    if (currentScene == 3)
+    if (currentScene == 3&&letar==false)
     {
         Raylib.DrawRectangleRec(TextBox, Color.BLACK);
         Raylib.DrawText("Du ser en gul pöl på marken. Du undrar vad det är för något.", 70, 575, 20, Color.WHITE);
