@@ -6,21 +6,21 @@ Raylib.InitWindow(1280, 720, "SPEL :D");
 Raylib.SetTargetFPS(60);
 
 int currentScene = 1;
-bool jamesSedd = false;
+bool jesusSedd = false;
 bool val_1 = false;
 bool val_2 = false;
 bool Continue = false;
 bool bossFight = false;
-bool JamesIsHurting = false;
-bool JamesHasBeenHurt = false;
+bool JesusIsHurting = false;
+bool JesusHasBeenHurt = false;
 bool still = false;
 bool letar = false;
 bool IsInventoryOpen = false;
 
 
 
-int timeJamesIsHurt = (int)(0.2 * 60);
-int JamesHurtTimeLeft = timeJamesIsHurt;
+int timeJesusIsHurt = (int)(0.2 * 60);
+int JesusHurtTimeLeft = timeJesusIsHurt;
 int WalkingAnimation = 0;
 int WalkingAnimationIndex = 0;
 int inventoryI = 0;
@@ -34,11 +34,10 @@ foreach (string path in Directory.GetFiles("Bilder/backgrounds"))
 }
 Console.WriteLine(backgrounds);
 
-Dictionary<string, Texture2D> JamesTextures = new Dictionary<string, Texture2D> {
-    {"black", Raylib.LoadTexture("Bilder/JamesBlack.png")},
-    {"normal", Raylib.LoadTexture("Bilder/JamesNormal.png")},
-    {"hurt", Raylib.LoadTexture("Bilder/JamesHurt.png")},
-    {"right", Raylib.LoadTexture("Bilder/JamesRight.png")}
+Dictionary<string, Texture2D> JesusTextures = new Dictionary<string, Texture2D> {
+    {"black", Raylib.LoadTexture("Bilder/JesusBlack.png")},
+    {"normal", Raylib.LoadTexture("Bilder/JesusNormal.png")},
+    {"hurt", Raylib.LoadTexture("Bilder/JesusHurt.png")},
 };
 
 Dictionary<string, Texture2D> SagaTextures = new Dictionary<string, Texture2D> {
@@ -74,15 +73,20 @@ SagaWalkingDown.Add(Raylib.LoadTexture("Bilder/SagaWalkingDown2.png"));
 SagaWalkingDown.Add(Raylib.LoadTexture("Bilder/FrontViewSaga.png"));
 
 Texture2D CurrentTexture = SagaTextures["avatar"];
-Texture2D CurrentJames = JamesTextures["black"];
+Texture2D CurrentJesus = JesusTextures["black"];
 Texture2D InventoryTexture = Raylib.LoadTexture("Bilder/SagaInventory.png");
 Texture2D OpenInventoryTexture = Raylib.LoadTexture("Bilder/SagaInventoryOpen.png");
+Texture2D ErikaOchElliot = Raylib.LoadTexture("Bilder/ErikaOchElliot.png");
+Texture2D LokeUtanAvokado = Raylib.LoadTexture("Bilder/LokeUtanAvokado.png");
+Texture2D LokeMedAvokado = Raylib.LoadTexture("Bilder/LokeMedAvokado.png");
 
 
 Rectangle character = new Rectangle(Raylib.GetScreenWidth() / 3, Raylib.GetScreenHeight() / 2, 100, 100);
-Rectangle James = new Rectangle(980, 300, 100, 100);
+Rectangle Jesus = new Rectangle(980, 300, 100, 100);
 Rectangle Source = new Rectangle(0, 0, backgrounds[0].width, backgrounds[0].height);
 Rectangle Destination = new Rectangle(0, 0, Raylib.GetScreenWidth(), Raylib.GetScreenHeight());
+Rectangle ElliotOchErikaBox = new Rectangle(800,70,100,100);
+Rectangle LokeRec = new Rectangle(100,300,100,100);
 Rectangle TextBox = new Rectangle(40, 550, 1200, 140);
 Rectangle InventoryTextBox = new Rectangle(40, 20, 500, 600);
 Rectangle Inventory = new Rectangle(5,5,50,50);
@@ -136,8 +140,8 @@ while (!Raylib.WindowShouldClose())
 
     if (currentScene == 2 && character.x > 700)
     {
-        James.x += 5;
-        jamesSedd = true;
+        Jesus.x += 5;
+        jesusSedd = true;
     }
 
     if (currentScene == 3)
@@ -165,10 +169,10 @@ while (!Raylib.WindowShouldClose())
             CurrentTexture = SagaTextures["back"];
         }
 
-        if (JamesHasBeenHurt == false)
+        if (JesusHasBeenHurt == false)
         {
-            James.x = 440;
-            James.y = 40;
+            Jesus.x = 440;
+            Jesus.y = 40;
         }
 
         bossFight = true;
@@ -181,7 +185,7 @@ while (!Raylib.WindowShouldClose())
         {
             val_1 = true;
             val_2 = false;
-            CurrentJames=JamesTextures["normal"];
+            CurrentJesus=JesusTextures["normal"];
         }
 
         if (Raylib.IsKeyDown(KeyboardKey.KEY_ENTER)){
@@ -194,10 +198,10 @@ while (!Raylib.WindowShouldClose())
         {
             val_2 = true;
 
-            if (JamesIsHurting == false && JamesHasBeenHurt == false)
+            if (JesusIsHurting == false && JesusHasBeenHurt == false)
             {
-                JamesHurtTimeLeft = timeJamesIsHurt;
-                JamesIsHurting = true;
+                JesusHurtTimeLeft = timeJesusIsHurt;
+                JesusIsHurting = true;
             }
         }
 
@@ -207,16 +211,16 @@ while (!Raylib.WindowShouldClose())
 
 
 
-    if (JamesIsHurting)
+    if (JesusIsHurting)
     {
-        CurrentJames = JamesTextures["hurt"];
-        JamesHurtTimeLeft--;
+        CurrentJesus = JesusTextures["hurt"];
+        JesusHurtTimeLeft--;
     }
-    if (JamesHasBeenHurt == false && JamesHurtTimeLeft <= 0)
+    if (JesusHasBeenHurt == false && JesusHurtTimeLeft <= 0)
     {
-        CurrentJames = JamesTextures["black"];
-        JamesIsHurting = false;
-        JamesHasBeenHurt = true;
+        CurrentJesus = JesusTextures["black"];
+        JesusIsHurting = false;
+        JesusHasBeenHurt = true;
         
     }
 
@@ -225,7 +229,7 @@ while (!Raylib.WindowShouldClose())
         Continue = true;
     }
 
-    if (JamesHasBeenHurt && Continue == true)
+    if (JesusHasBeenHurt && Continue == true)
     {
     
     }
@@ -267,8 +271,8 @@ void draw()
     {
 
 
-        Raylib.DrawTexture(CurrentJames, (int)James.x, (int)James.y, Color.WHITE);
-        if (jamesSedd == false && character.y < 500 && character.x < 700&&letar==false)
+        Raylib.DrawTexture(CurrentJesus, (int)Jesus.x, (int)Jesus.y, Color.WHITE);
+        if (jesusSedd == false && character.y < 500 && character.x < 700&&letar==false)
         {
             Raylib.DrawRectangleRec(TextBox, Color.BLACK);
             Raylib.DrawText("Du ser en mörk skugga stirra på dig från bakom ett träd. I hans hand ser du något gult glimmra. Du blir nyfiken.", 70, 575, 20, Color.WHITE);
@@ -316,39 +320,36 @@ void draw()
             Raylib.DrawText(" Du beslutar dig för att följa efter fotspåren du ser på marken. trots att det troligtvis är piss.", 70, 575, 20, Color.WHITE);
         }
     }
+    if (currentScene==6&&letar==true){
+        Raylib.DrawTexture(ErikaOchElliot,(int)ElliotOchErikaBox.x,(int)ElliotOchErikaBox.y,Color.WHITE);
+        Raylib.DrawTexture(LokeMedAvokado, (int)LokeRec.x, (int)LokeRec.y,Color.WHITE );
+    }
     if (currentScene == 7&&!IsInventoryOpen)
     {
-        Raylib.DrawTexture(CurrentJames, (int)James.x, (int)James.y, Color.WHITE);
+        Raylib.DrawTexture(CurrentJesus, (int)Jesus.x, (int)Jesus.y, Color.WHITE);
         if (character.y < 300&&Continue==false&&letar==false)
         {
             Raylib.DrawRectangleRec(TextBox, Color.BLACK);
-            Raylib.DrawText("Okänd person:  Vill du smaka...min avocado...", 70, 575, 20, Color.WHITE);
-            Raylib.DrawText("Klicka 1 för att smaka, och 2 för att inte göra det", 70, 650, 20, Color.WHITE);
-        }
-        if (val_2&&val_1==false&&letar==false)
-        {
-            Raylib.DrawRectangleRec(TextBox, Color.BLACK);
-            Raylib.DrawText("Okänd person: ..SMAKA.. avocado...", 70, 575, 20, Color.WHITE);
-            Raylib.DrawText("Klicka 1 för att smaka avocado eller 2 för att kasta en sten på den okända figuren", 70, 650, 20, Color.WHITE);
-            
-
+            Raylib.DrawText("Okänd person:  Jag är...vägen...", 70, 575, 20, Color.WHITE);
+            Raylib.DrawText("Klicka 1 för att lyssna, och 2 för att kasta en sten på figuren", 70, 650, 20, Color.WHITE);
         }
 
         if (val_1&&Continue==false&&letar==false)
         {
             Raylib.DrawRectangleRec(TextBox, Color.BLACK);
-            Raylib.DrawText("Oj jag trodde ej du skulle säga ja, ehh jag har ej allt jag behöver här, kan du leta efter det åt mig?", 70, 575, 20, Color.WHITE);
+            Raylib.DrawText("Jag är jesus. Hämta saker till mig eller hamna i helvetet.", 70, 575, 20, Color.WHITE);
             Raylib.DrawText("Klicka ENTER för att säga ja (du har inget val)", 70, 650, 20, Color.WHITE);
             
           
         }
         
 
-        if (JamesHasBeenHurt == true&&Continue==false&&letar==false)
+        if (JesusHasBeenHurt == true&&Continue==false&&letar==false)
         {
             Raylib.DrawRectangleRec(TextBox, Color.BLACK);
-            Raylib.DrawText("Okänd person: Ow varför gjorde du så :C Jag ville bara dela med mig av min avocado", 70, 575, 20, Color.WHITE);
-            Raylib.DrawText("Klicka ENTER för att för att säga förlåt och smaka hans avocado", 70, 650, 20, Color.WHITE);
+            Raylib.DrawText("Okänd person: Ow varför gjorde du så :C Jag ville bara dela med mig av mina visdomar", 70, 575, 20, Color.WHITE);
+            Raylib.DrawText("Klicka ENTER för att för att säga förlåt och lyssna på hans visdomar", 70, 650, 20, Color.WHITE);
+            CurrentJesus=JesusTextures["normal"];
         }
        
         if (Continue==true){
