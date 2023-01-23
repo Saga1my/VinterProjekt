@@ -10,7 +10,6 @@ bool jesusSedd = false;
 bool val_1 = false;
 bool val_2 = false;
 bool Continue = false;
-bool bossFight = false;
 bool JesusIsHurting = false;
 bool JesusHasBeenHurt = false;
 bool still = false;
@@ -77,6 +76,11 @@ Texture2D CurrentJesus = JesusTextures["black"];
 Texture2D InventoryTexture = Raylib.LoadTexture("Bilder/SagaInventory.png");
 Texture2D OpenInventoryTexture = Raylib.LoadTexture("Bilder/SagaInventoryOpen.png");
 Texture2D ErikaOchElliot = Raylib.LoadTexture("Bilder/ErikaOchElliot.png");
+Texture2D AxelTexture = Raylib.LoadTexture("Bilder/Axel.png");
+Texture2D FrejTexture = Raylib.LoadTexture("Bilder/frej.png");
+Texture2D FrejDeadTexture = Raylib.LoadTexture("Bilder/frejDead.png");
+Texture2D JenniferTexture = Raylib.LoadTexture("Bilder/jennifer.png");
+Texture2D SebastianTexture = Raylib.LoadTexture("Bilder/sebastian.png");
 Texture2D LokeUtanAvokado = Raylib.LoadTexture("Bilder/LokeUtanAvokado.png");
 Texture2D LokeMedAvokado = Raylib.LoadTexture("Bilder/LokeMedAvokado.png");
 
@@ -87,6 +91,10 @@ Rectangle Source = new Rectangle(0, 0, backgrounds[0].width, backgrounds[0].heig
 Rectangle Destination = new Rectangle(0, 0, Raylib.GetScreenWidth(), Raylib.GetScreenHeight());
 Rectangle ElliotOchErikaBox = new Rectangle(800, 70, 100, 100);
 Rectangle LokeRec = new Rectangle(100, 300, 100, 100);
+Rectangle FrejRec = new Rectangle(100, 300, 100, 100);
+Rectangle AxelRec = new Rectangle(100, 300, 100, 100);
+Rectangle JenniferRec = new Rectangle(150, 200, 100, 100);
+Rectangle SebatsianRec = new Rectangle(650, 300, 100, 100);
 Rectangle TextBox = new Rectangle(40, 550, 1200, 140);
 Rectangle InventoryTextBox = new Rectangle(40, 20, 500, 600);
 Rectangle Inventory = new Rectangle(5, 5, 50, 50);
@@ -177,7 +185,6 @@ while (!Raylib.WindowShouldClose())
             Jesus.y = 40;
         }
 
-        bossFight = true;
         if (Raylib.IsKeyDown(KeyboardKey.KEY_ENTER))
         {
             Continue = true;
@@ -265,23 +272,50 @@ void draw()
     }
 
 
-    if (currentScene == 1 && character.y > 200 && letar == false && !IsInventoryOpen)
+    if (currentScene == 1 && !IsInventoryOpen)
     {
-
+        if(letar==false&& character.y > 200){
         Raylib.DrawRectangleRec(TextBox, Color.BLACK);
         Raylib.DrawText("Du är ute på en promenad för att njuta av det vackra vädret!", 70, 575, 20, Color.WHITE);
         Raylib.DrawText("Klicka på W,A,S,D för att röra på dig och I för att öppna eller stänga ditt inventory", 70, 600, 20, Color.WHITE);
+        }
+
+
+        if(letar==true){
+            Raylib.DrawTexture(JenniferTexture,(int)JenniferRec.x,(int)JenniferRec.y,Color.WHITE);
+            if(Raylib.CheckCollisionRecs(character, JenniferRec)){
+            Raylib.DrawRectangleRec(TextBox, Color.BLACK); 
+            Raylib.DrawText("Jennifer:", 70, 575, 20, Color.WHITE);
+            Raylib.DrawText("Hej! Ett glas vatten? Ja det har jag! Här!", 70, 600, 20, Color.WHITE);
+            Raylib.DrawText("*jennifer gav dig ett glas med vatten*", 70, 650, 20, Color.WHITE);}
+        }
+    
+    
     }
 
-    if (currentScene == 2 && bossFight == false && !IsInventoryOpen)
+    if (currentScene == 2 && !IsInventoryOpen)
     {
+        if(letar==true){
+            Raylib.DrawTexture(SebastianTexture,(int)SebatsianRec.x,(int)SebatsianRec.y,Color.WHITE);
+            if(Raylib.CheckCollisionRecs(character, SebatsianRec)){
+            Raylib.DrawRectangleRec(TextBox, Color.BLACK); 
+            Raylib.DrawText("Sebastian:", 70, 575, 20, Color.WHITE);
+            Raylib.DrawText("Vad som hände med alla vattenflaskor? Jag hann dricka upp dem precis innan du kom..hehe sorry...", 70, 600, 20, Color.WHITE);
+            Raylib.DrawText("Klicka ENTER för att ifrågasätta varför han drack så jävla mycket vatten", 70, 650, 20, Color.WHITE);
 
+            if(Continue){
+                Raylib.DrawRectangleRec(TextBox, Color.BLACK); 
+                Raylib.DrawText("Sebastian:", 70, 575, 20, Color.WHITE);
+                Raylib.DrawText("Fuck you", 70, 600, 20, Color.WHITE);
+            }
+        }
+        }
 
-        Raylib.DrawTexture(CurrentJesus, (int)Jesus.x, (int)Jesus.y, Color.WHITE);
+        else{Raylib.DrawTexture(CurrentJesus, (int)Jesus.x, (int)Jesus.y, Color.WHITE);
         if (jesusSedd == false && character.y < 500 && character.x < 700 && letar == false)
         {
             Raylib.DrawRectangleRec(TextBox, Color.BLACK);
-            Raylib.DrawText("Du ser en mörk skugga stirra på dig från bakom ett träd. I hans hand ser du något gult glimmra. Du blir nyfiken.", 70, 575, 20, Color.WHITE);
+            Raylib.DrawText("Du ser en mörk skugga stirra på dig från bakom ett träd. Du blir nyfiken.", 70, 575, 20, Color.WHITE);
         }
         if (character.x > 700 && letar == false)
         {
@@ -289,11 +323,17 @@ void draw()
             Raylib.DrawText("När du försöker gå närmare springer han iväg. Fegis. ", 70, 575, 20, Color.WHITE);
             Raylib.DrawText("Du antar att det var någon galen muterad ekorre och fortsätter din promenad. ", 70, 600, 20, Color.WHITE);
         }
-
+        }
     }
 
-    if (currentScene == 3 && letar == false && !IsInventoryOpen)
+    if (currentScene == 3 && !IsInventoryOpen)
     {
+        if(letar==true){
+            
+        }
+
+
+        if(letar==false){
         Raylib.DrawRectangleRec(TextBox, Color.BLACK);
         Raylib.DrawText("Du ser en röd pöl på marken. Du undrar vad det är för något.", 70, 575, 20, Color.WHITE);
         Raylib.DrawText("Klicka på 1 för att peta i det eller 2 för att smaka på det. Du kan också bara gå därifrån.", 70, 650, 20, Color.WHITE);
@@ -325,11 +365,26 @@ void draw()
             Raylib.DrawRectangleRec(TextBox, Color.BLACK);
             Raylib.DrawText(" Du beslutar dig för att följa efter fotspåren du ser på marken. trots att det troligtvis är blod.", 70, 575, 20, Color.WHITE);
         }
+        }
     }
     if (currentScene == 6 && letar == true && IsInventoryOpen == false)
     {
         Raylib.DrawTexture(ErikaOchElliot, (int)ElliotOchErikaBox.x, (int)ElliotOchErikaBox.y, Color.WHITE);
+        if(Raylib.CheckCollisionRecs(character, ElliotOchErikaBox)){
+            Raylib.DrawRectangleRec(TextBox, Color.BLACK); 
+            Raylib.DrawText("Erika och Elliot:", 70, 575, 20, Color.WHITE);
+            Raylib.DrawText("Heeeeeeej! Dig känner vi igen. Vi såg dig gå mot Jesus där uppe. Jag hörde att du behövde ett glas vatten?", 70, 600, 20, Color.WHITE);
+            Raylib.DrawText("Vi såg precis Sebastian med hur många vattenflaskor som helst! Han är nere vid trädet! ", 70, 625, 20, Color.WHITE);
+
+
+        }
         Raylib.DrawTexture(LokeMedAvokado, (int)LokeRec.x, (int)LokeRec.y, Color.WHITE);
+         if(Raylib.CheckCollisionRecs(character, LokeRec)){
+            Raylib.DrawRectangleRec(TextBox, Color.BLACK); 
+            Raylib.DrawText("Loke:", 70, 575, 20, Color.WHITE);
+            Raylib.DrawText("Hehehe..jag har tagit avokadon du letar efter, du får den om du mobbar axel. Lycka till kortis :)", 70, 600, 20, Color.WHITE);
+
+        }
     }
     if (currentScene == 7 && !IsInventoryOpen)
     {
@@ -371,6 +426,7 @@ void draw()
     }
     //Raylib.DrawRectangleRec(TextBox, Color.BLACK); 
     //Raylib.DrawText("", 70, 575, 20, Color.WHITE);
+
 
 
 
