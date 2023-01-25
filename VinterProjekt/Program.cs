@@ -15,6 +15,7 @@ bool JesusHasBeenHurt = false;
 bool still = false;
 bool letar = false;
 bool IsInventoryOpen = false;
+bool frejoffrad = false;
 
 
 
@@ -117,7 +118,7 @@ while (!Raylib.WindowShouldClose())
 
     }
 
-    if (character.y > 600)
+    if (character.y > 700)
     {
         currentScene -= 1;
         character.y = 100;
@@ -154,13 +155,29 @@ while (!Raylib.WindowShouldClose())
         jesusSedd = true;
     }
 
-    if (currentScene == 3)
+if (currentScene==4)
     {
-        if (Raylib.IsKeyDown(KeyboardKey.KEY_ONE) && val_2 == false && Continue == false)
+        if (Raylib.IsKeyDown(KeyboardKey.KEY_ONE)  && Continue == false)
         {
             val_1 = true;
         }
-        if (Raylib.IsKeyDown(KeyboardKey.KEY_TWO) && val_1 == false && Continue == false)
+        if (Raylib.IsKeyDown(KeyboardKey.KEY_TWO)  && Continue == false)
+        {
+            val_2 = true;
+        }
+        if (Raylib.IsKeyDown(KeyboardKey.KEY_ENTER))
+        {
+            Continue = true;
+        }
+
+    }
+if (currentScene == 3)
+    {
+        if (Raylib.IsKeyDown(KeyboardKey.KEY_ONE)  && Continue == false)
+        {
+            val_1 = true;
+        }
+        if (Raylib.IsKeyDown(KeyboardKey.KEY_TWO)  && Continue == false)
         {
             val_2 = true;
         }
@@ -269,6 +286,10 @@ void draw()
         Raylib.DrawText("I din väska har du just nu:", 55, 40, 20, Color.WHITE);
         Raylib.DrawText("-Alvedon som smälter på tungan ", 55, 70, 20, Color.WHITE);
         Raylib.DrawText("-Skoldator ", 55, 100, 20, Color.WHITE);
+        if (frejoffrad){
+            Raylib.DrawText("-En död frej", 55, 130, 20, Color.WHITE);
+            Raylib.DrawTexture(FrejDeadTexture,55,700,Color.WHITE);
+        }
     }
 
 
@@ -306,7 +327,7 @@ void draw()
             if(Continue){
                 Raylib.DrawRectangleRec(TextBox, Color.BLACK); 
                 Raylib.DrawText("Sebastian:", 70, 575, 20, Color.WHITE);
-                Raylib.DrawText("Fuck you", 70, 600, 20, Color.WHITE);
+                Raylib.DrawText("Fuck you ", 70, 600, 20, Color.WHITE);
             }
         }
         }
@@ -329,7 +350,29 @@ void draw()
     if (currentScene == 3 && !IsInventoryOpen)
     {
         if(letar==true){
+            Raylib.DrawTexture(AxelTexture,(int)AxelRec.x,(int)AxelRec.y,Color.WHITE);
+            if(Raylib.CheckCollisionRecs(character, AxelRec)){
+                Raylib.DrawRectangleRec(TextBox, Color.BLACK); 
+                Raylib.DrawText("Axel:", 70, 575, 20, Color.WHITE);
+                Raylib.DrawText("vad vill du", 70, 600, 20, Color.WHITE);
+                Raylib.DrawText("Klicka 1 för att kalla axel dum eller 2 för att säga att loke vill att du skulle mobba honom", 70, 650, 20, Color.WHITE);
             
+                if(val_1){
+                    Raylib.DrawRectangleRec(TextBox, Color.BLACK); 
+                    Raylib.DrawText("Axel:", 70, 575, 20, Color.WHITE);
+                    Raylib.DrawText("bitch", 70, 600, 20, Color.WHITE);
+                    Raylib.DrawText("*Axel slår dig*", 70, 650, 20, Color.WHITE);
+                }
+
+                if(val_2){
+                    Raylib.DrawRectangleRec(TextBox, Color.BLACK); 
+                    Raylib.DrawText("Axel:", 70, 575, 20, Color.WHITE);
+                    Raylib.DrawText("snitch", 70, 600, 20, Color.WHITE);
+                    Raylib.DrawText("*Axel slår dig*", 70, 650, 20, Color.WHITE);
+                }
+            
+            
+            }
         }
 
 
@@ -367,6 +410,34 @@ void draw()
         }
         }
     }
+    if (currentScene==4&&letar==true&&!IsInventoryOpen){
+        if(!val_2&&frejoffrad==false){Raylib.DrawTexture(FrejTexture, (int)FrejRec.x, (int)FrejRec.y, Color.WHITE);}
+        if(Raylib.CheckCollisionRecs(character, FrejRec)&&Continue==false&&frejoffrad==false){
+            Raylib.DrawRectangleRec(TextBox, Color.BLACK); 
+            Raylib.DrawText("Frej:", 70, 575, 20, Color.WHITE);
+            Raylib.DrawText("Hej hej varsågod för all hjälp med programmeringen!", 70, 600, 20, Color.WHITE);
+            Raylib.DrawText("Klicka 1 för att säga tack eller 2 för att offra honom till jesus kristus", 70, 650, 20, Color.WHITE);
+        
+            if(val_1&&Continue==false&&frejoffrad==false){
+                Raylib.DrawRectangleRec(TextBox, Color.BLACK); 
+                Raylib.DrawText("Frej:", 70, 575, 20, Color.WHITE);
+                Raylib.DrawText("Varsågod! :D", 70, 600, 20, Color.WHITE);
+                Raylib.DrawText("Klicka 2 för att offra honom till jesus kristus. >:(", 70, 650, 20, Color.WHITE);
+            }
+
+            if(val_2&&Continue==false&&frejoffrad==false){
+                Raylib.DrawRectangleRec(TextBox, Color.BLACK); 
+                Raylib.DrawText("Frej:", 70, 575, 20, Color.WHITE);
+                Raylib.DrawTexture(FrejDeadTexture, (int)FrejRec.x, (int)FrejRec.y+70, Color.WHITE);
+                Raylib.DrawText("*frej är nu död*", 70, 600, 20, Color.WHITE);
+                Raylib.DrawText("Klicka ENTER för att plocka upp frej", 70, 650, 20, Color.WHITE);
+            }
+
+            if(Continue==true){frejoffrad=true;}
+        }
+
+    }
+    
     if (currentScene == 6 && letar == true && IsInventoryOpen == false)
     {
         Raylib.DrawTexture(ErikaOchElliot, (int)ElliotOchErikaBox.x, (int)ElliotOchErikaBox.y, Color.WHITE);
