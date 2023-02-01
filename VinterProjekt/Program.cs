@@ -85,11 +85,14 @@ Texture2D OpenInventoryTexture = Raylib.LoadTexture("Bilder/SagaInventoryOpen.pn
 Texture2D ErikaOchElliot = Raylib.LoadTexture("Bilder/ErikaOchElliot.png");
 Texture2D AxelTexture = Raylib.LoadTexture("Bilder/Axel.png");
 Texture2D FrejTexture = Raylib.LoadTexture("Bilder/frej.png");
+Texture2D VattenGlasTexture = Raylib.LoadTexture("Bilder/vattenglas.png");
+Texture2D AvocadoTexture = Raylib.LoadTexture("Bilder/Avocado.png");
 Texture2D FrejDeadTexture = Raylib.LoadTexture("Bilder/frejDead.png");
 Texture2D JenniferTexture = Raylib.LoadTexture("Bilder/jennifer.png");
 Texture2D SebastianTexture = Raylib.LoadTexture("Bilder/sebastian.png");
 Texture2D LokeUtanAvokado = Raylib.LoadTexture("Bilder/LokeUtanAvokado.png");
 Texture2D LokeMedAvokado = Raylib.LoadTexture("Bilder/LokeMedAvokado.png");
+Texture2D himlen = Raylib.LoadTexture("Bilder/himlen.png");
 
 
 Rectangle character = new Rectangle(Raylib.GetScreenWidth() / 3, Raylib.GetScreenHeight() / 2, 100, 100);
@@ -256,6 +259,17 @@ void draw()
         {
             Raylib.DrawText("-En död frej", 55, 130, 20, Color.WHITE);
             Raylib.DrawTexture(FrejDeadTexture, 900, 470, Color.WHITE);
+        }
+
+        if (tagitAvocado)
+        {
+            Raylib.DrawText("-Avocado", 55, 160, 20, Color.WHITE);
+            Raylib.DrawTexture(AvocadoTexture, 845, 320, Color.WHITE);
+        }
+        if (tagitVatten)
+        {
+            Raylib.DrawText("-Ett glas vatten", 55, 190, 20, Color.WHITE);
+            Raylib.DrawTexture(VattenGlasTexture, 980, 410, Color.WHITE);
         }
     }
 
@@ -513,6 +527,12 @@ void draw()
                 Raylib.DrawRectangleRec(TextBox, Color.BLACK);
                 Raylib.DrawText("Hm ok", 70, 575, 20, Color.WHITE);
                 Raylib.DrawText("Klicka ENTER för att komma till himlen", 70, 650, 20, Color.WHITE);
+                }
+                if(Continue==true&&tagitAllt==true){
+                Raylib.DrawTexturePro(himlen, Source, Destination, new Vector2(0, 0), 0, Color.WHITE);
+                still=true;
+                Raylib.DrawTexture(CurrentTexture, 600, 500, Color.WHITE);
+                Raylib.DrawTexture(CurrentJesus, 600, 200, Color.WHITE);
                 }
 
                 if(val_1==true&&tagitAllt==false){
