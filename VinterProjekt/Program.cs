@@ -37,7 +37,7 @@ foreach (string path in Directory.GetFiles("Bilder/backgrounds"))
 {
     backgrounds.Add(Raylib.LoadTexture(path));
 }
-Console.WriteLine(backgrounds);
+
 
 Dictionary<string, Texture2D> JesusTextures = new Dictionary<string, Texture2D> {
     {"black", Raylib.LoadTexture("Bilder/JesusBlack.png")},
@@ -609,7 +609,7 @@ void walk()
         if (!(character.x >= Raylib.GetScreenWidth() - SagaTextures["avatar"].width))
         {
             character.x += 7;
-            CurrentTexture = SagaWalkingRight[WalkingAnimationIndex];
+            CurrentTexture = SagaWalkingDown[WalkingAnimationIndex];
         }
     }
 

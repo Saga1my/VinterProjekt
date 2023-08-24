@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "V+kPJLj3c0HBOdbfDNlKk0aDijXamu/aRzvUs8ABTTe9SbxM3j2JjNBHVY8kPzLhiSSO+Nz2+qXuurpivOgn7A==",
+  "dgSpecHash": "9gm2rEdjLVBP0XEqfEj2ykr3YSbfDCEKCzPNzUDJ3/8I7HBku4oqlioKRJwYHsLcJ22nT2M0oZ4ztIlyhDkUvA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\saga.palm1\\Documents\\Programmering\\VinterProjekt\\VinterProjekt\\VinterProjekt.csproj",
+  "projectFilePath": "c:\\Users\\saga.palm1\\Documents\\Programmering\\VinterProjekt\\VinterProjekt\\VinterProjekt.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\saga.palm1\\.nuget\\packages\\raylib-cs\\4.2.0.1\\raylib-cs.4.2.0.1.nupkg.sha512",
     "C:\\Users\\saga.palm1\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512"
